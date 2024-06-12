@@ -8,7 +8,7 @@ weather_df.createOrReplaceTempView("mydb")
 
 #update
 updated_weather_df = weather_df.withColumn("status",
-                                            when(weather_df["HouryWindSpeed"] > 5, "good").otherwise("bad"))
+                                            when(weather_df["HourlyWindSpeed"] > 5, "good").otherwise("bad"))
 
 updated_weather_df.write.mode("overwrite").saveAsTable("weather_table")
 updated_weather_df.createOrReplaceTempView("weather_table")

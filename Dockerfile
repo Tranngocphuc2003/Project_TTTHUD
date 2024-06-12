@@ -12,6 +12,7 @@ RUN apt-get update \
 
 #java
 RUN apt-get update 
+
 RUN apt-get install -y openjdk-8-jdk 
 RUN apt-get clean 
 RUN rm -rf /var/lib/apt/lists/*
@@ -31,12 +32,23 @@ RUN apt-get update \
  && apt-get install -y sqlite3 \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
+
 #pyspark
 RUN pip install pyspark
 #JDBC
 RUN wget https://repo1.maven.org/maven2/org/xerial/sqlite-jdbc/3.34.0/sqlite-jdbc-3.34.0.jar
-
+RUN apt-get update && apt-get unzip
 
 WORKDIR $SPARK_HOME
-COPY data.csv home/data.csv
+COPY data.zip $SPARK_HOME
+COPY complex_with_where.py $SPARK_HOME
+COPY complex_without_where.py $SPARK_HOME
+COPY create_read.py $SPARK_HOME
+COPY delete.py $SPARK_HOME
+COPY example.py $SPARK_HOME
+COPY simple_with_where.py $SPARK_HOME
+COPY simple_without_where.py $SPARK_HOME
+COPY update.py $SPARK_HOME
+RUN unzip /opt/spark-3.5.1-bin-hadoop3/data.zip -d /opt/spark-3.5.1-bin-hadoop3/
+RUN rm /opt/spark-3.5.1-bin-hadoop3/data.zip
 CMD ["bash"]
